@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import LoginPage from "./pages/LoginPage";
-import AdministratorSurveysPage from "./pages/AdministratorSurveyPage";
-import AdministratorQuestionsPage from "./pages/AdministratorQuestionPage";
+import Dashboard from "./pages/Dashboard";
+import AdministratorUserPage from "./pages/AdministratorUserPage";
 import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
 import Error404 from "./pages/Error404";
@@ -42,11 +42,11 @@ const App = () => {
         >
           <Route
             path="/administrator/surveys"
-            element={<AdministratorSurveysPage />}
+            element={<Dashboard />}
           />
           <Route
             path="/administrator/questions"
-            element={<AdministratorQuestionsPage />}
+            element={<AdministratorUserPage />}
           />
         </Route>
         <Route path="*" element={<Error404 />} />

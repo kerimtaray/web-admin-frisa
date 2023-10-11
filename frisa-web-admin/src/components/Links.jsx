@@ -11,7 +11,7 @@ const Links = () => {
       </li>
       <li>
         <Link to="/administrator/questions" className={Styles.link}>
-          Preguntas
+          Usuarios
         </Link>
       </li>
     </ul>

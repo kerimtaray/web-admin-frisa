@@ -1,0 +1,154 @@
+/* OSCRequest.module.css */
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.oscRequest {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 3px solid #d9d9d9;
+  border-radius: 2%;
+  width: 700px;
+  height: 80px;
+  margin: 10px;
+  cursor: pointer;
+  padding: 0 20px;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease; 
+}
+
+.oscRequest:hover {
+  background-color: #f5f5f5; /* Slight hover effect for a touch of interactivity */
+}
+
+.oscRequest h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+  margin-right: 10px;
+  font-weight: 600; /* Make the title slightly bolder */
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  background-color: #ffffff;
+  border: 2px solid #d9d9d9; 
+  border-radius: 4px; 
+  color: black;
+  padding: 8px 12px; /* Slightly larger padding for better click area */
+  margin-left: 10px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.button:hover {
+  background-color: #f5f5f5; 
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  width: 500px;
+  border: 3px solid #d9d9d9;
+  border-radius: 18px; /* Increasing consistency with other borders */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.modal.open { 
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Other modal content styles can be refined for consistency */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;  /* Providing consistent spacing between elements */
+  padding: 20px;
+}
+
+.modal-content h2 {
+  text-align: center;
+  font-weight: 600;
+  padding: 20px 0;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.modal-content input, 
+.modal-content textarea {  /* Considering there might be a textarea too */
+  padding: 5px 10px;
+  border: 3px solid #000;
+  border-radius: 18px;
+  font-weight: 500;
+  width: 100%; /* Taking the full width of the modal */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.modal-button {
+  background-color: #fff;
+  color: #000;
+  border: 3px solid #000;
+  border-radius: 20px;
+  padding: 10px 20px;  /* Adjusting the padding for better visuals */
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.3s ease;  /* Adding hover effect */
+}
+
+.modal-button:hover {
+  background-color: #f5f5f5;
+}
+
+.modal-button.save {
+  background-color: #000;
+  color: #fff;
+  border: 3px solid #000;
+}
+
+.modal-button.error {
+  color: red;
+}
+
+.closeModal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.closeModal:hover {
+    color: #888;
+}

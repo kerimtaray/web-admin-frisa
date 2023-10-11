@@ -1,79 +1,58 @@
-import Styles from "./AddSurveyPage.module.css";
-
+import Styles from "./UpdateOSC.module.css";
 import { useState, useEffect } from "react";
+import ActiveQuestion from "../components/ActiveQuestion";
 import axios from "axios";
 
-import ActiveQuestion from "../components/ActiveQuestion";
-
-const AddSurveyPage = (props) => {
-  const [questions, setQuestions] = useState([]);
-  const [surveyData, setSurveyData] = useState({
-    title: "",
-    questionIds: [],
-    startDate: "",
-    endDate: "",
-  });
-  const [error, setError] = useState("");
-
-  const toggleActive = (id) => {
-    // console.log(id);
-    const ids = surveyData.questionIds;
-    if (ids.includes(id)) {
-      setSurveyData({
-        ...surveyData,
-        questionIds: surveyData.questionIds.filter(
-          (questionId) => questionId !== id
-        ),
-      });
-    } else {
-      setSurveyData({
-        ...surveyData,
-        questionIds: [...surveyData.questionIds, id],
-      });
-    }
-  };
-
-  const handleChange = (e) => {
-    setSurveyData({ ...surveyData, [e.target.name]: e.target.value });
-  };
-
-  // console.log(questions);
-  // console.log(surveyData);
+const UpdateOSC = (props) => {
+  const [error, setError] = useState();
+  const [survey, setSurvey] = useState();
+  const [questionIds, setQuestionIds] = useState([]);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/api/questions");
-        // console.log(res);
-        setQuestions(res.data);
-      } catch (err) {
-        console.log(err);
-      }
+    const fetchSurveys = async () => {
+      const res = await axios.get(
+        `http://localhost:8080/api/surveys/${props.id}`
+      );
+
+      setSurvey(res.data);
+      setQuestionIds(() =>
+        res.data.questions
+          .filter((question) => question.isActive)
+          .map((question) => question.id)
+      );
     };
-    fetchQuestions();
+
+    fetchSurveys();
   }, []);
 
-  const cancelButton = (e) => {
-    e.preventDefault();
-    console.log("cancel add");
-    props.hideAddSurvey();
-  };
+  const toggleActive = (questionId) => {
+    const newQuestions = survey.questions.map((question) => {
+      if (question.id == questionId) {
+        return {
+          ...question,
+          isActive: !question.isActive,
+        };
+      }
 
-  const saveButton = async (e) => {
-    e.preventDefault();
-    console.log("save");
-    try {
-      const res = await axios.post(
-        "http://localhost:8080/api/surveys",
-        surveyData
-      );
-      console.log(res);
-      props.hideAddSurvey();
-      // window.location.reload("/administrator/surveys");
-    } catch (err) {
-      console.log(err);
-      setError(err.response.data.error);
+      return question;
+    });
+
+    const newSurvey = { ...survey, questions: newQuestions };
+    setSurvey(newSurvey);
+
+    const newQuestionIds = [...questionIds];
+    const toggledQuestion = newSurvey.questions.find(
+      (question) => question.id === questionId
+    );
+
+    if (toggledQuestion.isActive) {
+      newQuestionIds.push(questionId);
+    } else {
+      const i = newQuestionIds.indexOf(questionId);
+      newQuestionIds.splice(i, 1);
     }
+
+    setQuestionIds(newQuestionIds);
   };
 
   const handleError = (err) => {
@@ -85,7 +64,7 @@ const AddSurveyPage = (props) => {
       );
     } else if (err == "Could not parse Date string") {
       return <p className={Styles.error}>Recuerda llenar todos los campos</p>;
-    } else if (err == "Cannot create survey that overlaps") {
+    } else if (err == "Cannot update survey that overlaps") {
       return (
         <p className={Styles.error}>La encuesta se empalma con otra encuesta</p>
       );
@@ -95,7 +74,7 @@ const AddSurveyPage = (props) => {
           La fecha de inicio no puede ser mayor a la fecha de finalización
         </p>
       );
-    } else if (err == "Cannot create survey with duplicate title") {
+    } else if (err == "Cannot update survey with duplicate title") {
       return (
         <p className={Styles.error}>Ya existe una encuesta con ese título</p>
       );
@@ -104,11 +83,32 @@ const AddSurveyPage = (props) => {
     }
   };
 
+  const saveButton = async (e) => {
+    e.preventDefault();
+    try {
+      const surveyData = {
+        title: survey.title,
+        questionIds: questionIds,
+        startDate: survey.startDate,
+        endDate: survey.endDate,
+      };
+      const res = await axios.put(
+        `http://localhost:8080/api/surveys/${props.id}`,
+        surveyData
+      );
+      console.log(res);
+      props.hideUpdateOSC();
+    } catch (err) {
+      console.log(err);
+      setError(err.response.data.error);
+    }
+  };
+
   return (
     <div className={Styles.overlay}>
       <div className={Styles.wrapper}>
         <div className={Styles.content}>
-          <h2>Crear Encuesta</h2>
+          <h2>Editar Encuesta</h2>
           <form className={Styles.form}>
             <div className={Styles.title}>
               <label htmlFor="title">Título</label>
@@ -116,8 +116,11 @@ const AddSurveyPage = (props) => {
                 type="text"
                 id="title"
                 name="title"
+                value={survey ? survey.title : ""}
+                onChange={(e) => {
+                  setSurvey({ ...survey, title: e.target.value });
+                }}
                 placeholder="Ingresa el título de la encuesta..."
-                onChange={handleChange}
               />
             </div>
             <div className={Styles.dates}>
@@ -127,7 +130,10 @@ const AddSurveyPage = (props) => {
                   type="date"
                   id="startDate"
                   name="startDate"
-                  onChange={handleChange}
+                  value={survey ? survey.startDate : ""}
+                  onChange={(e) => {
+                    setSurvey({ ...survey, startDate: e.target.value });
+                  }}
                 />
               </div>
               <div className={Styles.date}>
@@ -136,7 +142,10 @@ const AddSurveyPage = (props) => {
                   type="date"
                   id="endDate"
                   name="endDate"
-                  onChange={handleChange}
+                  value={survey ? survey.endDate : ""}
+                  onChange={(e) => {
+                    setSurvey({ ...survey, endDate: e.target.value });
+                  }}
                 />
               </div>
             </div>
@@ -144,9 +153,10 @@ const AddSurveyPage = (props) => {
           <div className={Styles.questions}>
             <div>
               <h3>Profesores</h3>
-              {questions.map(
-                (question) =>
-                  question.section === "TEACHER" && (
+              {survey &&
+                survey.questions
+                  .filter((question) => question.section === "TEACHER")
+                  .map((question) => (
                     <ActiveQuestion
                       key={question.id}
                       title={question.title}
@@ -154,14 +164,14 @@ const AddSurveyPage = (props) => {
                       className={Styles.question}
                       toggleActive={toggleActive}
                     />
-                  )
-              )}
+                  ))}
             </div>
             <div className={Styles.questions}>
               <h3>Materias</h3>
-              {questions.map(
-                (question) =>
-                  question.section === "COURSE" && (
+              {survey &&
+                survey.questions
+                  .filter((question) => question.section === "COURSE")
+                  .map((question) => (
                     <ActiveQuestion
                       key={question.id}
                       title={question.title}
@@ -169,14 +179,14 @@ const AddSurveyPage = (props) => {
                       className={Styles.question}
                       toggleActive={toggleActive}
                     />
-                  )
-              )}
+                  ))}
             </div>
             <div className={Styles.questions}>
               <h3>Bloques</h3>
-              {questions.map(
-                (question) =>
-                  question.section === "BLOCK" && (
+              {survey &&
+                survey.questions
+                  .filter((question) => question.section === "BLOCK")
+                  .map((question) => (
                     <ActiveQuestion
                       key={question.id}
                       title={question.title}
@@ -184,8 +194,7 @@ const AddSurveyPage = (props) => {
                       className={Styles.question}
                       toggleActive={toggleActive}
                     />
-                  )
-              )}
+                  ))}
             </div>
           </div>
           {handleError(error)}
@@ -193,7 +202,10 @@ const AddSurveyPage = (props) => {
             <button
               className={Styles.cancel}
               type="submit"
-              onClick={cancelButton}
+              onClick={(e) => {
+                e.preventDefault();
+                props.hideUpdateOSC();
+              }}
             >
               Cancelar
             </button>
@@ -207,4 +219,4 @@ const AddSurveyPage = (props) => {
   );
 };
 
-export default AddSurveyPage;
+export default UpdateOSC;
