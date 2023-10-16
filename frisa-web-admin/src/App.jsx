@@ -5,6 +5,7 @@ import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import AdministratorUserPage from "./pages/AdministratorUserPage";
+import AdministratorOSCPage from "./pages/AdministratorOSCPage";
 import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
 import Error404 from "./pages/Error404";
@@ -41,12 +42,16 @@ const App = () => {
           }
         >
           <Route
-            path="/administrator/surveys"
+            path="/dashboard"
             element={<Dashboard />}
           />
           <Route
-            path="/administrator/questions"
+            path="/dashboard/users"
             element={<AdministratorUserPage />}
+          />
+          <Route
+            path="/dashboard/oscs"
+            element={<AdministratorOSCPage />}
           />
         </Route>
         <Route path="*" element={<Error404 />} />

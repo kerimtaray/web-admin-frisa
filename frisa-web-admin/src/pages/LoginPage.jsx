@@ -85,7 +85,7 @@ const Login = (props) => {
 
       switch (dataSubmit.role) {
         case "ADMINISTRATOR":
-          navigate("/administrator/surveys", {
+          navigate("/dashboard", {
             state: { dataSubmit },
           });
           break;

@@ -152,3 +152,75 @@
 .closeModal:hover {
     color: #888;
 }
+
+/* ... [other styles remain unchanged] ... */
+
+/* New styles for edit mode */
+.editMode {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Consistent spacing between form elements */
+}
+
+.editMode label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.editMode input, 
+.editMode textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.editMode input:focus, 
+.editMode textarea:focus {
+  border-color: #555;
+  outline: none;
+}
+
+.editMode button {
+  align-self: flex-start;
+  background-color: rgb(160, 50, 50); /* Use a distinctive color for the Save button */
+  color: #FFF;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editMode button:hover {
+  background-color: #0056b3;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.label {
+  font-weight: 600;
+  color: #333;
+  margin-right: 10px;
+}
+
+.value {
+  font-weight: 400;
+  color: #666;
+}
+
+.infoPair {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  align-items: baseline;  /* Ensures that labels and values align properly */
+}

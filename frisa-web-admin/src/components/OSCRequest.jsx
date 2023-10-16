@@ -55,36 +55,77 @@ return (
 
       {isModalOpen && (
         <div className={`${Styles.modal} ${isModalOpen ? Styles.open : ''}`} onClick={(e) => e.stopPropagation()}>
-          <button className={Styles.closeModal} onClick={(e) => { e.stopPropagation(); setIsModalOpen(false); }}>
+          <button className={Styles.closeModal} onClick={(e) => { e.stopPropagation(); setIsModalOpen(false);
+          setIsModalOpen(false);
+          setEditMode(false);  }}>
             x
           </button>
 
           {editMode ? (
-            <div>
-              <textarea name="description" value={requestData.description} onChange={handleInputChange}></textarea>
-              <input name="location" value={requestData.location} onChange={handleInputChange} />
-              <input name="moreInfo" value={requestData.moreInfo} onChange={handleInputChange} />
+            <div className={Styles.editMode}>
+              <label htmlFor="description">Description:</label>
+                <textarea 
+                  id="description" 
+                  name="description" 
+                  value={requestData.description} 
+                  onChange={handleInputChange}
+                ></textarea>
+              <label htmlFor="location">Location:</label>
+                <input 
+                  id="location" 
+                  name="location" 
+                  value={requestData.location} 
+                  onChange={handleInputChange} 
+                />
+
+              <label htmlFor="moreInfo">More Info:</label>
+                  <input 
+                    id="moreInfo" 
+                    name="moreInfo" 
+                    value={requestData.moreInfo} 
+                    onChange={handleInputChange} 
+                  />
               <button onClick={handleSave}>Save</button>
             </div>
           ) : (
-            <div>
-              <p>{requestData.description}</p>
-              <p><strong>Location:</strong> {requestData.location}</p>
-              <p><strong>More Info:</strong> {requestData.moreInfo}</p>
+            <div className={Styles.modalContent}>
+              <div className={Styles.infoPair}>
+                <p className={Styles.label}>Description:</p>
+                <p className={Styles.value}>{requestData.description}</p>
+              </div>
+              <div className={Styles.infoPair}>
+                <p className={Styles.label}>Location:</p>
+                <p className={Styles.value}>{requestData.location}</p>
+              </div>
+              <div className={Styles.infoPair}>
+                <p className={Styles.label}>More Info:</p>
+                <p className={Styles.value}>{requestData.moreInfo}</p>
+              </div>
             </div>
           )}
 
-          <div className={Styles.buttons}>
-            <button className={Styles.button} onClick={(e) => { e.stopPropagation(); handleDelete(requestData.id); }}>
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-            <button className={Styles.button} onClick={(e) => { e.stopPropagation(); handleEdit(); }}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-            <button className={Styles.button} onClick={(e) => { e.stopPropagation(); handleAccept(); }}>
-              <FontAwesomeIcon icon={faCheckCircle} />
-            </button>
-          </div>
+          {!editMode && (
+              <div className={Styles.buttons}>
+                  <button className={Styles.button} onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(requestData.id);
+                  }}>
+                      <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                        <button className={Styles.button} onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit();
+                        }}>
+                      <FontAwesomeIcon icon={faPenToSquare} />
+                  </button>
+                  <button className={Styles.button} onClick={(e) => {
+                      e.stopPropagation();
+                      handleAccept();
+                  }}>
+                      <FontAwesomeIcon icon={faCheckCircle} />
+                  </button>
+              </div>
+          )}
         </div>
       )}
     </div>

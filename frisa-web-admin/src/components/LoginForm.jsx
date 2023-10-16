@@ -35,7 +35,7 @@ const LoginForm = () => {
 
       switch (mockData.role) {
         case "ADMINISTRATOR":
-          navigate("/administrator/surveys", { state: { mockData } });
+          navigate("/administrator/users", { state: { mockData } });
           break;
         default:
           break;

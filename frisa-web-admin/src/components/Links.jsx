@@ -5,13 +5,18 @@ const Links = () => {
   return (
     <ul className={Styles.links}>
       <li>
-        <Link to="/administrator/surveys" className={Styles.link}>
-          Encuestas
+        <Link to="/dashboard" className={Styles.link}>
+          Dashaboard
         </Link>
       </li>
       <li>
-        <Link to="/administrator/questions" className={Styles.link}>
+        <Link to="/dashboard/users" className={Styles.link}>
           Usuarios
+        </Link>
+      </li>
+      <li>
+        <Link to="/dashboard/oscs" className={Styles.link}>
+          OSCs
         </Link>
       </li>
     </ul>

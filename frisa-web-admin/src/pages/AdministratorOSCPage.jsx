@@ -1,18 +1,15 @@
-import Styles from "./AdministratorUserPage.module.css";
+import Styles from "./AdministratorOSCPage.module.css";
 import Navbar from "../components/Navbar";
 import User from "../components/User"; // Component to showcase each user
 //import AddUser from "./AddUser"; // Placeholder for component if you want to add new users
-import EditUser from "../components/EditUser";
-
 
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-const AdminUserPage = () => {
+const AdminOSCPage = () => {
   const activeLinks = true;
-  
 
   const dummyUsers = [
     {
@@ -38,7 +35,6 @@ const AdminUserPage = () => {
 
   const [users, setUsers] = useState([]);
   const [showAddUser, setShowAddUser] = useState(false);
-  const [editingUser, setEditingUser] = useState(null); 
 
   useEffect(() => {
     // You can toggle between dummy data and real data by commenting/uncommenting the lines below
@@ -61,31 +57,17 @@ const AdminUserPage = () => {
     setShowAddUser(!showAddUser);
   };
 
-  const handleUpdateUser = (updatedUser) => {
-    setUsers(prevUsers => prevUsers.map(u => u.id === updatedUser.id ? updatedUser : u));
-    setEditingUser(null); 
-  };
-
   return (
     <div>
       <Navbar showLinks={activeLinks} />
-      <h2>Usuarios Registrados</h2>
+      <h2>OSCs Registradas</h2>
 
       {showAddUser && <AddUser hideAddUser={handleClick} />}
-
-      {editingUser && 
-        <EditUser 
-          userData={editingUser} 
-          hideEditUser={() => setEditingUser(null)} 
-          updateUser={handleUpdateUser}
-        />
-      }
 
       <div className={Styles.container}>
         <div className={Styles.users}>
           {users.map((user) => (
-            <User key={user.id} data={user} onEdit={() => setEditingUser(user)} />
-
+            <User key={user.id} data={user} />
           ))}
         </div>
       </div>
@@ -93,4 +75,4 @@ const AdminUserPage = () => {
   );
 };
 
-export default AdminUserPage;
+export default AdminOSCPage;
