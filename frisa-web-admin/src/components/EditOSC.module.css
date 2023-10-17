@@ -1,4 +1,6 @@
-/* Base styling for the Edit User modal */
+/* EditOSC.module.css */
+
+/* Base styling for the Edit OSC modal */
 .overlay {
   position: fixed;
   top: 0;
@@ -50,7 +52,8 @@
   color: #333;
 }
 
-.editMode input {
+.editMode input,
+.editMode textarea {
   width: 100%;
   padding: 10px;
   border: 2px solid #d9d9d9;
@@ -59,7 +62,13 @@
   transition: border-color 0.2s ease;
 }
 
-.editMode input:focus {
+.editMode textarea {
+  resize: vertical; /* Allow vertical resize of the textarea */
+  min-height: 100px; /* Set a minimum height for the textarea */
+}
+
+.editMode input:focus,
+.editMode textarea:focus {
   border-color: #555;
   outline: none;
 }

@@ -1,40 +1,44 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import Styles from "./EditUser.module.css";
+import Styles from "./EditOSC.module.css";
 
-const EditUser = ({ userData, hideEditUser, updateUser }) => {
-  // State for form fields, pre-populated with passed userData
-  const [name, setName] = useState(userData.name);
-  const [lastname, setLastname] = useState(userData.lastname);
-  const [email, setEmail] = useState(userData.email);
-  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
-  const [state, setState] = useState(userData.state);
-  const [city, setCity] = useState(userData.city);
-  const [isAdmin, setIsAdmin] = useState(userData.isAdmin);
+const EditOSC = ({ oscData, hideEditOSC, updateOSC }) => {
+  // State for form fields, pre-populated with passed oscData
+  const [name, setName] = useState(oscData.name);
+  const [adminName, setAdminName] = useState(oscData.adminName);
+  const [email, setEmail] = useState(oscData.email);
+  const [phoneNumber, setPhoneNumber] = useState(oscData.phoneNumber);
+  const [state, setState] = useState(oscData.state);
+  const [city, setCity] = useState(oscData.city);
+  const [description, setDescription] = useState(oscData.description);
+  const [webpage, setWebpage] = useState(oscData.webpage);
+  const [category, setCategory] = useState(oscData.category);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedData = {
-      ...userData,
+      ...oscData,
       name,
-      lastname,
+      adminName,
       email,
       phoneNumber,
       state,
       city,
-      isAdmin
+      description,
+      webpage,
+      category
     };
-    updateUser(updatedData);
-    hideEditUser();
+    updateOSC(updatedData);
+    hideEditOSC();
   };
 
   return (
     <div className={Styles.overlay}>
       <div className={Styles.wrapper}>
         <div className={Styles.content}>
-          <h2>Editar Usuario</h2>
-          <button className={Styles.closeButton} onClick={hideEditUser}>
+          <h2>Editar OSC</h2>
+          <button className={Styles.closeButton} onClick={hideEditOSC}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
           <form className={Styles.editMode} onSubmit={handleSubmit}>
@@ -43,8 +47,8 @@ const EditUser = ({ userData, hideEditUser, updateUser }) => {
               <input type="text" value={name} onChange={e => setName(e.target.value)} />
             </div>
             <div className={Styles.field}>
-              <label>Lastname</label>
-              <input type="text" value={lastname} onChange={e => setLastname(e.target.value)} />
+              <label>Admin Name</label>
+              <input type="text" value={adminName} onChange={e => setAdminName(e.target.value)} />
             </div>
             <div className={Styles.field}>
               <label>Email</label>
@@ -63,8 +67,16 @@ const EditUser = ({ userData, hideEditUser, updateUser }) => {
               <input type="text" value={city} onChange={e => setCity(e.target.value)} />
             </div>
             <div className={Styles.field}>
-              <label>Is Admin?</label>
-              <input type="checkbox" checked={isAdmin} onChange={e => setIsAdmin(e.target.checked)} />
+              <label>Description</label>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} />
+            </div>
+            <div className={Styles.field}>
+              <label>Webpage</label>
+              <input type="url" value={webpage} onChange={e => setWebpage(e.target.value)} />
+            </div>
+            <div className={Styles.field}>
+              <label>Category</label>
+              <input type="text" value={category} onChange={e => setCategory(e.target.value)} />
             </div>
             <div className={Styles.buttons}>
               <button type="submit" className="save">Save Changes</button>
@@ -76,5 +88,4 @@ const EditUser = ({ userData, hideEditUser, updateUser }) => {
   );
 };
 
-export default EditUser;
-
+export default EditOSC;

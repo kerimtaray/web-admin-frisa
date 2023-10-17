@@ -5,9 +5,16 @@ import axios from "axios";
 const AddOSC = (props) => {
     const [oscData, setOSCData] = useState({
         name: "",
+        adminName: "",
+        rfc: "",
         description: "",
-        location: "",
-        moreInfo: "",
+        phoneNumber: "",
+        state: "",
+        city: "",
+        email: "",
+        webpage: "",
+        category: "",
+        password: "", // make sure this is kept secure and not exposed unnecessarily
     });
 
     const [error, setError] = useState("");
@@ -27,16 +34,10 @@ const AddOSC = (props) => {
             const res = await axios.post("http://localhost:8080/api/osc", oscData);
             console.log(res);
             props.hideAddOSC();
-            // Optionally refresh data or redirect as necessary
         } catch (err) {
             console.log(err);
             setError(err.response.data.error);
         }
-    };
-
-    const handleError = (err) => {
-        // Adjust this error handling as necessary based on your backend's error messages
-        return <p className={Styles.error}>{error}</p>;
     };
 
     return (
@@ -45,57 +46,76 @@ const AddOSC = (props) => {
                 <div className={Styles.content}>
                     <h2>Crear OSC</h2>
                     <form className={Styles.form}>
-                        <div className={Styles.title}>
+                        
+                        <div className={Styles.name}>
                             <label htmlFor="name">Nombre</label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                placeholder="Ingresa el nombre de OSC..."
-                                onChange={handleChange}
-                            />
+                            <input type="text" id="name" name="name" placeholder="Ingresa el nombre de OSC..." onChange={handleChange} />
                         </div>
+
+                        <div className={Styles.adminName}>
+                            <label htmlFor="adminName">Admin Nombre</label>
+                            <input type="text" id="adminName" name="adminName" placeholder="Nombre del administrador..." onChange={handleChange} />
+                        </div>
+
+                        <div className={Styles.rfc}>
+                            <label htmlFor="rfc">RFC</label>
+                            <input type="text" id="rfc" name="rfc" placeholder="RFC..." onChange={handleChange} />
+                        </div>
+
                         <div className={Styles.description}>
                             <label htmlFor="description">Descripción</label>
-                            <input
-                                type="text"
-                                id="description"
-                                name="description"
-                                placeholder="Descripción..."
-                                onChange={handleChange}
-                            />
+                            <textarea id="description" name="description" placeholder="Descripción..." onChange={handleChange} />
                         </div>
-                        <div className={Styles.location}>
-                            <label htmlFor="location">Ubicación</label>
-                            <input
-                                type="text"
-                                id="location"
-                                name="location"
-                                placeholder="Ubicación..."
-                                onChange={handleChange}
-                            />
+
+                        <div className={Styles.phoneNumber}>
+                            <label htmlFor="phoneNumber">Número de Teléfono</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Teléfono..." onChange={handleChange} />
                         </div>
-                        <div className={Styles.moreInfo}>
-                            <label htmlFor="moreInfo">Más Información</label>
-                            <input
-                                type="text"
-                                id="moreInfo"
-                                name="moreInfo"
-                                placeholder="Más Información..."
-                                onChange={handleChange}
-                            />
+
+                        <div className={Styles.state}>
+                            <label htmlFor="state">Estado</label>
+                            <input type="text" id="state" name="state" placeholder="Estado..." onChange={handleChange} />
+                        </div>
+
+                        <div className={Styles.city}>
+                            <label htmlFor="city">Ciudad</label>
+                            <input type="text" id="city" name="city" placeholder="Ciudad..." onChange={handleChange} />
+                        </div>
+
+                        <div className={Styles.email}>
+                            <label htmlFor="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="Email..." onChange={handleChange} />
+                        </div>
+
+                        <div className={Styles.webpage}>
+                            <label htmlFor="webpage">Página Web</label>
+                            <input type="url" id="webpage" name="webpage" placeholder="Página Web..." onChange={handleChange} />
+                        </div>
+
+                        <div className={Styles.category}>
+                            <label htmlFor="category">Categoría</label>
+                            <select id="category" name="category" onChange={handleChange}>
+                                <option value="Salud">Salud</option>
+                                <option value="Educación">Educación</option>
+                                {/* Add more categories as needed */}
+                            </select>
+                        </div>
+
+                        <div className={Styles.password}>
+                            <label htmlFor="password">Contraseña</label>
+                            <input type="password" id="password" name="password" placeholder="Contraseña..." onChange={handleChange} />
+                        </div>
+
+
+                        <div className={Styles.buttons}>
+                            <button className={Styles.cancel} type="button" onClick={cancelButton}>
+                                Cancelar
+                            </button>
+                            <button className={Styles.save} type="button" onClick={saveButton}>
+                                Guardar
+                            </button>
                         </div>
                     </form>
-
-                    {handleError(error)}
-                    <div className={Styles.buttons}>
-                        <button className={Styles.cancel} type="button" onClick={cancelButton}>
-                            Cancelar
-                        </button>
-                        <button className={Styles.save} type="button" onClick={saveButton}>
-                            Guardar
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

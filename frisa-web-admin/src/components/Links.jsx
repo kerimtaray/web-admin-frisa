@@ -6,7 +6,7 @@ const Links = () => {
     <ul className={Styles.links}>
       <li>
         <Link to="/dashboard" className={Styles.link}>
-          Dashaboard
+          Dashboard
         </Link>
       </li>
       <li>

@@ -1,0 +1,29 @@
+/* OSC.module.css */
+.osc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically centered */
+  border: 1px solid #e0e0e0; /* Optional: Add a border for better visualization */
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.oscDetails {
+  flex: 1; /* Make sure the osc details take up as much space as possible */
+  margin: 0; /* Remove default paragraph margins */
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button {
+  background-color: #ffffff;
+  border: none;
+  color: black;
+  padding: 10px 10px;
+  cursor: pointer;
+  margin-left: 10px; /* Space between the buttons if there are multiple */
+}
