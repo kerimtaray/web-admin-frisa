@@ -23,7 +23,6 @@ const EditUser = ({ userData, hideEditUser, updateUser }) => {
       phoneNumber,
       state,
       city,
-      isAdmin
     };
     updateUser(updatedData);
     hideEditUser();
@@ -61,10 +60,6 @@ const EditUser = ({ userData, hideEditUser, updateUser }) => {
             <div className={Styles.field}>
               <label>City</label>
               <input type="text" value={city} onChange={e => setCity(e.target.value)} />
-            </div>
-            <div className={Styles.field}>
-              <label>Is Admin?</label>
-              <input type="checkbox" checked={isAdmin} onChange={e => setIsAdmin(e.target.checked)} />
             </div>
             <div className={Styles.buttons}>
               <button type="submit" className="save">Save Changes</button>

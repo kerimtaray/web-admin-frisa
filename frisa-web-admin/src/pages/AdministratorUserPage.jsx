@@ -19,7 +19,7 @@ const AdminUserPage = () => {
       try {
         const res = await axios.get("https://api-test-frisa-rmex-dev.fl0.io/admin/getAllUsers");
         // Using the 'results' key from the API response to set the users
-        setUsers(res.data.data.results);
+        setUsers(res.data.users);
       } catch (err) {
         console.log(err);
       }
@@ -54,7 +54,7 @@ const AdminUserPage = () => {
       <div className={Styles.container}>
         <div className={Styles.users}>
           {users.map((user) => (
-            <User key={user._id} data={user} onEdit={() => setEditingUser(user)} />
+            <User data={user} onEdit={() => setEditingUser(user)} />
           ))}
         </div>
       </div>

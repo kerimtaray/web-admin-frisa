@@ -19,7 +19,7 @@ const AdminOSCPage = () => {
       try {
         const res = await axios.get("https://api-test-frisa-rmex-dev.fl0.io/admin/getAllOrgs");
         // Using the 'results' key from the API response to set the OSCs
-        setOSCs(res.data.data.results);
+        setOSCs(res.data.organizaions);
       } catch (err) {
         console.log(err);
       }

@@ -1,6 +1,8 @@
 import Styles from "./AddOSC.module.css";
 import { useState } from "react";
 import axios from "axios";
+import * as XLSX from 'xlsx';
+
 
 const AddOSC = (props) => {
     const [oscData, setOSCData] = useState({
@@ -14,7 +16,7 @@ const AddOSC = (props) => {
         email: "",
         webpage: "",
         category: "",
-        password: "", // make sure this is kept secure and not exposed unnecessarily
+        password:""
     });
 
     const [error, setError] = useState("");
@@ -31,14 +33,54 @@ const AddOSC = (props) => {
     const saveButton = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:8080/api/osc", oscData);
+            const res = await axios.post("https://api-test-frisa-rmex-dev.fl0.io/auth/oscregister", oscData); 
             console.log(res);
             props.hideAddOSC();
         } catch (err) {
             console.log(err);
-            setError(err.response.data.error);
+            setError(err.response.data.message); 
         }
     };
+
+    // Excel 
+
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleUploadExcel = async (e) => {
+        e.preventDefault();
+        if (!file) {
+            setError("Por favor, selecciona un archivo primero.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+
+            const json = XLSX.utils.sheet_to_json(worksheet);
+
+            console.log(json)
+
+            try {
+                const response = await axios.post("https://api-test-frisa-rmex-dev.fl0.io/admin/uploadExcelOsc", json);
+                console.log(response);
+            } catch (err) {
+                console.log(err);
+                setError(err.response ? err.response.data.error : "Ocurrió un error al subir el archivo.");
+            }
+        };
+
+        reader.readAsArrayBuffer(file);
+    };
+
 
     return (
         <div className={Styles.overlay}>
@@ -106,6 +148,11 @@ const AddOSC = (props) => {
                             <input type="password" id="password" name="password" placeholder="Contraseña..." onChange={handleChange} />
                         </div>
 
+                          <div className={Styles.fileInput}>
+                            <label>Cargar Excel:</label>
+                            <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
+                            <button type="button" onClick={handleUploadExcel}>Subir Excel</button>
+                        </div>
 
                         <div className={Styles.buttons}>
                             <button className={Styles.cancel} type="button" onClick={cancelButton}>

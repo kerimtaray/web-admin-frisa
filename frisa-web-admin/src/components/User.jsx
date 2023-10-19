@@ -7,7 +7,7 @@ import axios from "axios";
 const User = (props) => {
   
   const handleEdit = () => {
-    props.onEdit(); // Call the onEdit prop passed down from the AdminUserPage component
+    props.onEdit();
   };
 
   return (
@@ -16,7 +16,7 @@ const User = (props) => {
       <div className={Styles.buttons}>
         <button
           className={Styles.button}
-          onClick={handleEdit}  // Here you don't need to pass the ID anymore
+          onClick={handleEdit} 
         >
           <FontAwesomeIcon icon={faPenToSquare} />
         </button>

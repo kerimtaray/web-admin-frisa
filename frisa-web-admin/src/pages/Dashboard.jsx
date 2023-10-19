@@ -18,7 +18,7 @@ const Dashboard = () => {
     const fetchOSCRequests = async () => {
       try {
         const res = await axios.get("https://api-test-frisa-rmex-dev.fl0.io/admin/getAllOrgs");
-        const nonAdmitedOrgs = res.data.data.results.filter(org => !org.admited);
+        const nonAdmitedOrgs = res.data.organizaions.filter(org => !org.admited);
         setOSCRequests(nonAdmitedOrgs);
       } catch (err) {
         console.log(err);

@@ -9,9 +9,11 @@ const OSCRequest = (props) => {
   const [editMode, setEditMode] = useState(false);
   const [requestData, setRequestData] = useState(props.data);
 
-  const handleDelete = async (id) => {
+  console.log(props.data)
+
+  const handleDelete = async (_id) => {
     try {
-      const res = await axios.delete(`http://localhost:8080/api/oscRequests/${id}`);
+      const res = await axios.delete(`https://api-test-frisa-rmex-dev.fl0.io/admin/rejectOsc/${_id}`);
       console.log(res);
       setIsModalOpen(false);
     } catch (err) {
@@ -19,14 +21,9 @@ const OSCRequest = (props) => {
     }
   };
 
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
   const handleAccept = async () => {
     try {
-      // Assuming you have a backend route to accept the request
-      const res = await axios.put(`http://localhost:8080/api/oscRequests/accept/${requestData.id}`);
+      const res = await axios.put(`https://api-test-frisa-rmex-dev.fl0.io/admin/acceptOsc/${requestData._id}`, { admited: true });
       console.log(res);
       setIsModalOpen(false);
     } catch (err) {
@@ -41,12 +38,16 @@ const OSCRequest = (props) => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.put(`http://localhost:8080/api/oscRequests/${requestData.id}`, requestData);
+      const res = await axios.patch(`https://api-test-frisa-rmex-dev.fl0.io/admin/editOsc/${requestData._id}`, requestData);
       console.log(res);
       setEditMode(false);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleEdit = () => {
+    setEditMode(true);
   };
 
 return (
@@ -186,7 +187,7 @@ return (
               <div className={Styles.buttons}>
                   <button className={Styles.button} onClick={(e) => {
                       e.stopPropagation();
-                      handleDelete(requestData.id);
+                      handleDelete(requestData._id);
                   }}>
                       <FontAwesomeIcon icon={faTrash} />
                         </button>
